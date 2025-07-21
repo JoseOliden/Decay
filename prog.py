@@ -50,7 +50,6 @@ else:
 
 n_periodos = t_values / t_ref
 
-st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
 
 # Gráfica
 fig, ax = plt.subplots()
