@@ -77,9 +77,5 @@ st.dataframe(tabla)
 
 # Ecuación
 st.latex(formula)
-st.markdown("Donde:")
-st.markdown("- \( N_0 \): número inicial de núcleos")
-st.markdown("- \( t_{1/2} \): vida media")
-st.markdown("- \( t \): tiempo transcurrido")
 
 st.success("✅ Simulación completada.")
