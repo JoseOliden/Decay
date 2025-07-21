@@ -24,7 +24,7 @@ grafico = st.empty()
 # Simulación
 n = 0.0
 while n <= num_periodos:
-    N_frac = np.exp(-lambda_ln2 * n)  # N(t)/N0 = e^(-ln(2) * n)
+    N_frac = 1 - np.exp(-lambda_ln2 * n)  # N(t)/N0 = 1- e^(-ln(2) * n)
     datos_n.append(n)
     datos_frac.append(N_frac)
 
@@ -43,7 +43,7 @@ while n <= num_periodos:
     time.sleep(1)
 
 # Mostrar fórmula final
-st.latex(r"e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
+st.latex(r"1-e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
 st.markdown("Donde:")
 st.markdown("- \( N_0 \) es el número inicial de núcleos")
 st.markdown("- \( t_{1/2} \) es la vida media")
