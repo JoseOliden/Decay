@@ -1,54 +1,40 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+import time
 
-# Título de la app
-st.title("Animación de la Desintegración Radiactiva")
+st.set_page_config(page_title="Desintegración Radioactiva en Tiempo Real")
 
-# Parámetros de entrada
+st.title("📉 Desintegración Radioactiva en Tiempo Real")
+
+# Entradas del usuario
 N0 = st.number_input("Número inicial de núcleos (N₀)", min_value=1, value=1000)
 halflife = st.number_input("Vida media (t½) en segundos", min_value=0.1, value=10.0)
-t_max = st.number_input("Tiempo total de simulación (s)", min_value=1, value=60)
+tiempo_total = st.slider("Duración de la simulación (s)", min_value=5, max_value=60, value=30)
+update_interval = st.slider("Intervalo de actualización (s)", min_value=0.1, max_value=1.0, value=0.2)
 
-# Cálculo de lambda
+# Constante de desintegración
 lambda_ = np.log(2) / halflife
-t = np.linspace(0, t_max, 300)
-N = N0 * np.exp(-lambda_ * t)
 
-# Gráfico base
-fig, ax = plt.subplots()
-line, = ax.plot([], [], lw=2)
-ax.set_xlim(0, t_max)
-ax.set_ylim(0, N0)
-ax.set_xlabel("Tiempo (s)")
-ax.set_ylabel("Núcleos restantes")
-ax.set_title("Desintegración Radiactiva")
+# Gráfico dinámico
+st.subheader("Evolución temporal de N(t)")
+grafico = st.line_chart()
 
-# Funciones para la animación
-def init():
-    line.set_data([], [])
-    return line,
+# Simulación en tiempo real
+t = 0
+datos_tiempo = []
+datos_N = []
 
-def animate(i):
-    x = t[:i]
-    y = N[:i]
-    line.set_data(x, y)
-    return line,
+with st.empty():
+    while t <= tiempo_total:
+        N = N0 * np.exp(-lambda_ * t)
+        datos_tiempo.append(t)
+        datos_N.append(N)
+        grafico.add_rows({"Núcleos": [N]})
+        t += update_interval
+        time.sleep(update_interval)
 
-ani = animation.FuncAnimation(fig, animate, init_func=init,
-                              frames=len(t), interval=50, blit=True)
+st.success("✅ Simulación terminada")
 
-# Mostrar la animación en Streamlit
-from streamlit.components.v1 import html
-import tempfile
+st.latex(r"N(t) = N_0 \cdot e^{-\lambda t}")
+st.markdown(f"Donde:  \n- λ = ln(2) / t½ = {lambda_:.4f} s⁻¹")
 
-with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as f:
-    ani.save(f.name, writer='html')
-    with open(f.name, 'r') as f_html:
-        html(f_html.read(), height=400)
-
-st.markdown("La ecuación usada es:  \n"
-            r"$N(t) = N_0 \cdot e^{-\lambda t}$  \n"
-            f"donde:  \n"
-            r"$\lambda = \frac{{\ln(2)}}{{t_{1/2}}} = {lambda_:.4f} \ s^{{-1}}$")
