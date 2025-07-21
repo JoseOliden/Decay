@@ -38,12 +38,15 @@ if modo == "Acumulación":
     ylabel = "Fracción acumulada (N / N₀)"
     title = "Acumulación de Actividad de Dos Radionúclidos"
     formula = r"\frac{N(t)}{N_0} = 1 - e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}"
+    st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
 else:
     frac_a = np.exp(-lambda_a * t_values)
     frac_b = np.exp(-lambda_b * t_values)
     ylabel = "Fracción remanente (N / N₀)"
     title = "Desintegración de Dos Radionúclidos"
     formula = r"\frac{N(t)}{N_0} = e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}"
+    st.markdown("Se muestran dos curvas de desintegración para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
+
 
 n_periodos = t_values / t_ref
 
