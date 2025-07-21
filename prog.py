@@ -9,9 +9,8 @@ st.set_page_config(page_title="Desintegración Radiactiva - Fracción vs Periodo
 st.title("📉 Desintegración Radiactiva: Fracción remanente vs Número de Periodos")
 
 # Entradas del usuario
-num_periodos = st.slider("Número total de periodos (t / t½)", min_value=1, max_value=20, value=10)
-dt = st.slider("Paso entre puntos (fracción de vida media)", min_value=0.05, max_value=1.0, value=0.2)
-
+num_periodos = 10 
+dt = 1
 # Parámetro constante
 lambda_ln2 = np.log(2)  # ln(2)
 
