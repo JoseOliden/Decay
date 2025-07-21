@@ -3,48 +3,51 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-st.set_page_config(page_title="Desintegración Radioactiva")
+# Configuración de la página
+st.set_page_config(page_title="Desintegración Radiactiva - Fracción vs Periodos")
 
-st.title("🧪 Simulación de Desintegración Radioactiva (Tiempo Fijo)")
+st.title("📉 Desintegración Radiactiva: Fracción remanente vs Número de Periodos")
 
 # Entradas del usuario
-N0 = st.number_input("Número inicial de núcleos (N₀)", min_value=1, value=1000)
-halflife = st.number_input("Vida media (t½) en segundos", min_value=0.1, value=10.0)
-tiempo_total = st.slider("Duración de la simulación (s)", min_value=10, max_value=120, value=60)
-dt = st.slider("Intervalo de actualización (s)", min_value=0.1, max_value=2.0, value=0.5)
+num_periodos = st.slider("Número total de periodos (t / t½)", min_value=1, max_value=20, value=10)
+dt = st.slider("Paso entre puntos (fracción de vida media)", min_value=0.05, max_value=1.0, value=0.2)
 
-# Constante de desintegración
-lambda_ = np.log(2) / halflife
+# Parámetro constante
+lambda_ln2 = np.log(2)  # ln(2)
 
-# Contenedores de datos
-datos_tiempo = []
-datos_N = []
+# Inicializar listas para graficar
+datos_n = []
+datos_frac = []
 
-# Espacio para la gráfica
+# Contenedor para la gráfica
 grafico = st.empty()
 
-# Simulación en tiempo real
-t = 0.0
-while t <= tiempo_total:
-    N = N0 * np.exp(-lambda_ * t)
-    datos_tiempo.append(t)
-    datos_N.append(N)
+# Simulación
+n = 0.0
+while n <= num_periodos:
+    N_frac = np.exp(-lambda_ln2 * n)  # N(t)/N0 = e^(-ln(2) * n)
+    datos_n.append(n)
+    datos_frac.append(N_frac)
 
-    # Crear gráfico con escala fija
+    # Graficar con escala fija
     fig, ax = plt.subplots()
-    ax.plot(datos_tiempo, datos_N, color='blue')
-    ax.set_xlim(0, tiempo_total)
-    ax.set_ylim(0, N0 * 1.05)
-    ax.set_xlabel("Tiempo (s)")
-    ax.set_ylabel("Núcleos restantes")
-    ax.set_title("Desintegración Radioactiva")
+    ax.plot(datos_n, datos_frac, color='green', marker='o', linestyle='-')
+    ax.set_xlim(0, num_periodos)
+    ax.set_ylim(0, 1.05)
+    ax.set_xlabel("Número de periodos (t / t½)")
+    ax.set_ylabel("Fracción remanente (N / N₀)")
+    ax.set_title("Desintegración Radioactiva Normalizada")
 
     grafico.pyplot(fig)
 
-    t += dt
-    time.sleep(dt)
+    n += dt
+    time.sleep(0.3)
 
-st.success("✅ Simulación finalizada")
+# Mostrar fórmula final
+st.latex(r"\frac{N(t)}{N_0} = e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
+st.markdown("Donde:")
+st.markdown("- \( N_0 \) es el número inicial de núcleos")
+st.markdown("- \( t_{1/2} \) es la vida media")
+st.markdown("- \( n = t / t_{1/2} \) es el número de periodos")
 
-st.latex(r"N(t) = N_0 \cdot e^{-\lambda t}")
-st.markdown(f"Donde λ = ln(2) / t½ = {lambda_:.4f} s⁻¹")
+st.success("✅ Simulación completada.")
