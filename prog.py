@@ -40,7 +40,7 @@ while n <= num_periodos:
     grafico.pyplot(fig)
 
     n += dt
-    time.sleep(0.3)
+    time.sleep(0.5)
 
 # Mostrar fórmula final
 st.latex(r"e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
