@@ -12,11 +12,11 @@ modo = st.radio("Selecciona el tipo de simulación:", ["Acumulación", "Desinteg
 
 # Parámetros del usuario
 st.sidebar.header("Radionúclido A")
-t12_a = st.sidebar.number_input("Valor t½ de A [s]", min_value=1, value=5.0)
+t12_a = st.sidebar.number_input("Valor t½ de A [s]", min_value=1.0, value=5.0)
 nombre_a = st.sidebar.text_input("Nombre A", value="Elemento A")
 
 st.sidebar.header("Radionúclido B")
-t12_b = st.sidebar.number_input("Valor t½ de B [s]", min_value=1, value=10.0)
+t12_b = st.sidebar.number_input("Valor t½ de B [s]", min_value=1.0, value=10.0)
 nombre_b = st.sidebar.text_input("Nombre B", value="Elemento B")
 
 num_periodos = st.slider("Número total de periodos (referencia)", 1, 20, 10)
