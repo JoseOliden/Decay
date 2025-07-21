@@ -60,6 +60,5 @@ st.dataframe(tabla)
 
 # Ecuación general
 st.latex(r"\frac{N(t)}{N_0} = 1 - e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
-st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
 
 st.success("✅ Simulación completada.")
