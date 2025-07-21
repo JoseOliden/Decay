@@ -1,52 +1,64 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 import time
 
-# Configuración de la página
-st.set_page_config(page_title="Desintegración Radiactiva - Fracción vs Periodos")
+st.set_page_config(page_title="Acumulación de Actividad - Dos Núclidos")
 
-st.title("📉 Desintegración Radiactiva: Fracción remanente vs Número de Periodos")
+st.title("☢️ Acumulación de Actividad de Dos Radionúclidos")
 
-# Entradas del usuario
-num_periodos = 10 
-dt = 1
-# Parámetro constante
-lambda_ln2 = np.log(2)  # ln(2)
+# Parámetros del usuario
+st.sidebar.header("Radionúclido A")
+t12_a = st.sidebar.number_input("Vida media A (t½) [s]", min_value=0.01, value=5.0)
+nombre_a = st.sidebar.text_input("Nombre A", value="Elemento A")
 
-# Inicializar listas para graficar
-datos_n = []
-datos_frac = []
+st.sidebar.header("Radionúclido B")
+t12_b = st.sidebar.number_input("Vida media B (t½) [s]", min_value=0.01, value=10.0)
+nombre_b = st.sidebar.text_input("Nombre B", value="Elemento B")
 
-# Contenedor para la gráfica
-grafico = st.empty()
+num_periodos = st.slider("Número total de periodos (referencia)", 1, 20, 10)
+dt = st.slider("Paso entre puntos (s)", 0.1, 5.0, 1.0)
 
-# Simulación
-n = 0.0
-while n <= num_periodos:
-    N_frac = 1 - np.exp(-lambda_ln2 * n)  # N(t)/N0 = 1- e^(-ln(2) * n)
-    datos_n.append(n)
-    datos_frac.append(N_frac)
+# Calcular número de pasos y tiempo total basado en el mayor t½
+t_ref = max(t12_a, t12_b)
+t_total = num_periodos * t_ref
+t_values = np.arange(0, t_total + dt, dt)
 
-    # Graficar con escala fija
-    fig, ax = plt.subplots()
-    ax.plot(datos_n, datos_frac, color='green', marker='o', linestyle='-')
-    ax.set_xlim(0, num_periodos)
-    ax.set_ylim(0, 1.05)
-    ax.set_xlabel("Número de periodos ")
-    ax.set_ylabel("Fracción de actividad de saturación o desintegración")
-    #ax.set_title("Desintegración Radioactiva Normalizada")
-    ax.grid(True)
-    grafico.pyplot(fig)
+# Constante de desintegración para cada uno
+lambda_a = np.log(2) / t12_a
+lambda_b = np.log(2) / t12_b
 
-    n += dt
-    time.sleep(1)
+# Fracción acumulada: 1 - exp(-lambda * t)
+frac_a = 1 - np.exp(-lambda_a * t_values)
+frac_b = 1 - np.exp(-lambda_b * t_values)
+n_periodos = t_values / t_ref
 
-# Mostrar fórmula final
-st.latex(r"1-e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
-st.markdown("Donde:")
-st.markdown("- \( N_0 \) es el número inicial de núcleos")
-st.markdown("- \( t_{1/2} \) es la vida media")
-st.markdown("- \( n = t / t_{1/2} \) es el número de periodos")
+# Gráfica
+fig, ax = plt.subplots()
+ax.plot(n_periodos, frac_a, label=f"{nombre_a} (t½ = {t12_a}s)", color='blue', marker='o')
+ax.plot(n_periodos, frac_b, label=f"{nombre_b} (t½ = {t12_b}s)", color='red', marker='s')
+ax.axhline(1.0, color='gray', linestyle='--', linewidth=1)
+ax.set_xlim(0, num_periodos)
+ax.set_ylim(0, 1.05)
+ax.set_xlabel("Número de periodos normalizados (t / t½ de referencia)")
+ax.set_ylabel("Fracción acumulada (N / N₀)")
+ax.set_title("Acumulación de Actividad de Dos Radionúclidos")
+ax.grid(True)
+ax.legend()
+st.pyplot(fig)
+
+# Tabla de datos
+tabla = pd.DataFrame({
+    "t (s)": t_values,
+    "n (t / t_ref)": n_periodos,
+    f"{nombre_a} (N/N₀)": frac_a,
+    f"{nombre_b} (N/N₀)": frac_b,
+})
+st.dataframe(tabla)
+
+# Ecuación general
+st.latex(r"\frac{N(t)}{N_0} = 1 - e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
+st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
 
 st.success("✅ Simulación completada.")
