@@ -37,7 +37,7 @@ while n <= num_periodos:
     ax.set_xlabel("Número de periodos (t / t½)")
     ax.set_ylabel("Fracción remanente (N / N₀)")
     ax.set_title("Desintegración Radioactiva Normalizada")
-
+    ax.grid(True)
     grafico.pyplot(fig)
 
     n += dt
