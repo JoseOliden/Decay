@@ -34,9 +34,9 @@ while n <= num_periodos:
     ax.plot(datos_n, datos_frac, color='green', marker='o', linestyle='-')
     ax.set_xlim(0, num_periodos)
     ax.set_ylim(0, 1.05)
-    ax.set_xlabel("Número de periodos (t / t½)")
-    ax.set_ylabel("Fracción remanente (N / N₀)")
-    ax.set_title("Desintegración Radioactiva Normalizada")
+    ax.set_xlabel("Número de periodos ")
+    ax.set_ylabel("Fracción de actividad de saturación o desintegración")
+    #ax.set_title("Desintegración Radioactiva Normalizada")
     ax.grid(True)
     grafico.pyplot(fig)
 
@@ -44,7 +44,7 @@ while n <= num_periodos:
     time.sleep(0.3)
 
 # Mostrar fórmula final
-st.latex(r"\frac{N(t)}{N_0} = e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
+st.latex(r"e^{-\ln(2) \cdot \frac{t}{t_{1/2}}}")
 st.markdown("Donde:")
 st.markdown("- \( N_0 \) es el número inicial de núcleos")
 st.markdown("- \( t_{1/2} \) es la vida media")
