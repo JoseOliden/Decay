@@ -10,11 +10,11 @@ st.title("☢️ Acumulación de Actividad de Dos Radionúclidos")
 
 # Parámetros del usuario
 st.sidebar.header("Radionúclido A")
-t12_a = st.sidebar.number_input("Vida media A (t½) [s]", min_value=0.01, value=5.0)
+t12_a = st.sidebar.number_input("Valor t½ de A [s]", min_value=0.01, value=5.0)
 nombre_a = st.sidebar.text_input("Nombre A", value="Elemento A")
 
 st.sidebar.header("Radionúclido B")
-t12_b = st.sidebar.number_input("Vida media B (t½) [s]", min_value=0.01, value=10.0)
+t12_b = st.sidebar.number_input("Valor t½ de B [s]", min_value=0.01, value=10.0)
 nombre_b = st.sidebar.text_input("Nombre B", value="Elemento B")
 
 num_periodos = st.slider("Número total de periodos (referencia)", 1, 20, 10)
