@@ -61,6 +61,8 @@ ax.grid(True)
 ax.legend()
 st.pyplot(fig)
 
+st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
+
 # Tabla de datos
 tabla = pd.DataFrame({
     "t (s)": t_values,
