@@ -47,6 +47,8 @@ else:
 
 n_periodos = t_values / t_ref
 
+st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
+
 # Gráfica
 fig, ax = plt.subplots()
 ax.plot(n_periodos, frac_a, label=f"{nombre_a} (t½ = {t12_a}s)", color='blue', marker='o')
@@ -61,7 +63,6 @@ ax.grid(True)
 ax.legend()
 st.pyplot(fig)
 
-st.markdown("Se muestran dos curvas de acumulación para diferentes vidas medias. El eje horizontal está normalizado respecto a la mayor de ambas vidas medias.")
 
 # Tabla de datos
 tabla = pd.DataFrame({
