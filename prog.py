@@ -20,8 +20,8 @@ t12_b = st.sidebar.number_input("Valor t½ de B [s]", min_value=1.0, value=10.0)
 nombre_b = st.sidebar.text_input("Nombre B", value="Elemento B")
 
 num_periodos = st.slider("Número total de periodos (referencia)", 1, 20, 10)
-dt = st.slider("Paso entre puntos (s)", 0.1, 5.0, 1.0)
-
+#dt = st.slider("Paso entre puntos (s)", 0.1, 5.0, 1.0)
+dt = 10.0
 # Tiempo total basado en el mayor t½
 t_ref = max(t12_a, t12_b)
 t_total = num_periodos * t_ref
